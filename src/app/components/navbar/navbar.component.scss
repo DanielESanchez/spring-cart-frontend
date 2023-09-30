@@ -1,0 +1,29 @@
+.title {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: x-large;
+    font-weight: bold;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+::ng-deep .p-menubar {
+
+    p-menubarsub {
+        position: absolute;
+        right: 40px;
+    }
+}
+
+.logo {
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+:host ::ng-deep .badge-cart {
+    background-color: rgb(221, 104, 104);
+    color: white;
+    padding: 5px 8px 5px 8px;
+    text-align: center;
+    border-radius: 50%;
+    margin-left: 5px;
+}

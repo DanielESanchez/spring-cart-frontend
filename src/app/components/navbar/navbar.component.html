@@ -1,0 +1,27 @@
+<p-menubar [model]="items">
+    <ng-template pTemplate="start">
+        <div class="grid">
+            <div class="col-2 logo" >
+                <img src="/assets/logo.jpeg" height="40"  />
+            </div>
+            <div class="col title logo">
+                Store Shopping Cart
+            </div>
+        </div>
+    </ng-template>
+    <!--ng-template pTemplate="end" *ngIf="isMainPage">
+        <button pButton pRipple label="Check Order" class="p-button-success" (click)="goCheck()"></button>
+    </ng-template-->
+</p-menubar>
+<p-toast position="center" [baseZIndex]="5000" [showTransformOptions]="'translateY(100%)'" 
+    [showTransitionOptions]="'1000ms'" [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'">
+    <ng-template let-message pTemplate="message">
+        <div class="flex flex-column" style="flex: 1">
+            <div class="text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
