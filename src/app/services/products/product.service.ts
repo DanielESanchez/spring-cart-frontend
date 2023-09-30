@@ -13,8 +13,27 @@ export class ProductService {
     return this.http.post<any>(`${environment.API_URL}product/new`, product, { observe: "response" });
   }
 
-  deleteProduct(productId: any){
+  deleteProduct(productId: string) {
     return this.http.delete<any>(`${environment.API_URL}product/delete/${productId}`);
   }
 
+  getAllProducts() {
+    return this.http.get<any>(`${environment.API_URL}products`);
+  }
+
+  getAllProductsAdmin() {
+    return this.http.get<any>(`${environment.API_URL}admin/products`);
+  }
+
+  disableProduct(productId: string) {
+    return this.http.patch<any>(`${environment.API_URL}product/disable/${productId}`, null);
+  }
+
+  enableProduct(productId: string) {
+    return this.http.patch<any>(`${environment.API_URL}product/enable/${productId}`, null);
+  }
+
+  getProductByIdAdmin(productId: string){
+    return this.http.get<any>(`${environment.API_URL}product/admin/get/${productId}`);
+  }
 }

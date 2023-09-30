@@ -5,6 +5,9 @@ import { RegisterComponent } from './pages/register/register.component';
 import { HomeComponent } from './pages/home/home.component';
 import { UploadProductComponent } from './pages/upload-product/upload-product.component';
 import { UploadCategoryComponent } from './pages/upload-category/upload-category.component';
+import { ProductListAdminComponent } from './pages/product-list-admin/product-list-admin.component';
+import { ProductViewAdminComponent } from './pages/product-view-admin/product-view-admin.component';
+import { CategoryListAdminComponent } from './pages/category-list-admin/category-list-admin.component';
 
 const routes: Routes = [
   {
@@ -22,6 +25,18 @@ const routes: Routes = [
   {
     path: 'new-category',
     component: UploadCategoryComponent
+  },
+  {
+    path: 'admin-products',
+    component: ProductListAdminComponent
+  },
+  {
+    path: 'admin-categories',
+    component: CategoryListAdminComponent
+  },
+  {
+    path: 'admin-view-product/:id',
+    component: ProductViewAdminComponent,
   },
   {
     path: '**',

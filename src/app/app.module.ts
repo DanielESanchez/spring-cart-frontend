@@ -31,11 +31,20 @@ import { MessageService } from 'primeng/api';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { BadgeModule } from 'primeng/badge';
+import { TagModule } from "primeng/tag";
+import { RatingModule } from "primeng/rating";
 import { RegisterComponent } from './pages/register/register.component';
 import { HomeComponent } from './pages/home/home.component';
 import { UploadProductComponent } from './pages/upload-product/upload-product.component';
 import { UploadCategoryComponent } from './pages/upload-category/upload-category.component';
 import { HeaderInterceptorService } from './services/auth-service/header-interceptor.service';
+import { ProductListAdminComponent } from './pages/product-list-admin/product-list-admin.component';
+import { PaginatorModule } from 'primeng/paginator';
+import { TooltipModule } from "primeng/tooltip";
+import { GalleriaModule } from "primeng/galleria";
+import { ImageModule } from "primeng/image";
+import { ProductViewAdminComponent } from './pages/product-view-admin/product-view-admin.component';
+import { CategoryListAdminComponent } from './pages/category-list-admin/category-list-admin.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +54,10 @@ import { HeaderInterceptorService } from './services/auth-service/header-interce
     RegisterComponent,
     HomeComponent,
     UploadProductComponent,
-    UploadCategoryComponent
+    UploadCategoryComponent,
+    ProductListAdminComponent,
+    ProductViewAdminComponent,
+    CategoryListAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +84,13 @@ import { HeaderInterceptorService } from './services/auth-service/header-interce
     DynamicDialogModule,
     InputTextareaModule,
     FormsModule,
-    MultiSelectModule
+    MultiSelectModule,
+    TagModule,
+    RatingModule,
+    PaginatorModule,
+    TooltipModule,
+    GalleriaModule,
+    ImageModule
   ],
   providers: [MessageService, CookieService,
     { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptorService, multi: true },],

@@ -88,13 +88,15 @@ export class NavbarComponent implements OnInit {
         label: 'Logout',
         icon: 'pi pi-fw pi-sign-out',
         command: () => {
-          this.signalService.emitSignal(1524)
           this.messageService.add({ severity: 'success', summary: 'Logged Out', detail: "" });
           this.logoutService.logout()
-          this.router.navigate(["/"])
         }
       }
     ];
+  }
+
+  goHome(){
+    this.router.navigate(["/"])
   }
 
 }

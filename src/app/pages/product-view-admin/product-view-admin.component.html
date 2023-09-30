@@ -1,0 +1,44 @@
+<app-navbar></app-navbar>
+<div class="card md:justify-content-rigth mt-5" *ngIf="product && product.images && product.images.length > 0">
+    <div class="grid gap-3">
+        <div class="field col">
+            <p-galleria [value]="product.images" [responsiveOptions]="responsiveOptions"
+                [containerStyle]="{ 'width': '50vw', 'heigth': '640px' }" [numVisible]="6" [circular]="true">
+                <ng-template pTemplate="item" let-item>
+                    <img [src]="item" style="height: 600px;" />
+                </ng-template>
+                <ng-template pTemplate="thumbnail" let-item>
+                    <div class="grid grid-nogutter justify-content-center">
+                        <img [src]="item" height="100px" />
+                    </div>
+                </ng-template>
+            </p-galleria>
+        </div>
+        <div class="text-center field col" style="width: 50%;">
+            <div class="two text-center pt-2" *ngIf="product">
+                <h1>{{product.name}}
+                    <span>{{product.categories}}</span>
+                </h1>
+                <br>
+                <div class="grid">
+                    <div class="field col text-left">
+                        <span class="price-tag">
+                            <span
+                                style="font-size: 30px; font-weight: bold; font-style: italic;">${{product.price}}</span>
+                        </span>
+                    </div>
+                    <div class="field col text-right align-items-center">
+                        <div class="flex flex-wrap align-items-center justify-content-center card-container blue-container"
+                            style="height: 100%;">
+                            <p-rating [(ngModel)]="product.rating" [stars]="5" [cancel]="false" [readonly]="true">
+                            </p-rating>
+                            <span class="ml-4">  Total reviews: {{totalReviews}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p-divider></p-divider>
+            <p>{{product.description}}</p>
+        </div>
+    </div>
+</div>

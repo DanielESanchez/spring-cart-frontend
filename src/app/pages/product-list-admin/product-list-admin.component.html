@@ -1,0 +1,95 @@
+<app-navbar></app-navbar>
+<div class="card">
+    <p-table #dt2 [value]="products" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 15, 20]" [globalFilterFields]="['name', 'product.categories']">
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                    (click)="clear(dt2)"></button>
+                <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input #search pInputText type="text" (input)="dt2.filterGlobal(search.value, 'contains')"
+                        placeholder="Search Product" />
+                </span>
+            </div>
+            <!-- <div class="flex align-items-center justify-content-between">
+                Products
+                <p-button icon="pi pi-refresh"></p-button>
+            </div> -->
+        </ng-template>
+        <ng-template pTemplate="header" class="text-center">
+            <tr>
+                <th>Name
+                    <p-columnFilter type="text" field="name" display="menu" [showMatchModes]="false"
+                        [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                </th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>Categories
+                    <p-columnFilter type="text" field="product.categories" display="menu" [showMatchModes]="false"
+                        [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                </th>
+                <th>Reviews</th>
+                <th>Stock</th>
+                <th>Status</th>
+                <th>Option</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{product.name}}</td>
+                <td><img [src]="product.image"
+                        [alt]="product.name" height="100" class="shadow-4" /></td>
+                <td>{{product.price | currency:'USD'}}</td>
+                <td>{{product.categories}}</td>
+                <td><p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating></td>
+                <td><p-tag [value]="getSeverityName(product.quantityAvailable)"
+                        [severity]="getSeverity(product.quantityAvailable)"></p-tag> ({{product.quantityAvailable}})
+                </td>
+                <td>{{getStatus(product.isEnable)}}</td>
+                <td>
+                    <p-button icon="pi pi-eye" styleClass="p-button-inf mr-1"
+                        pTooltip="See {{product.name}}"></p-button>
+                    <p-button icon="pi pi-lock-open" styleClass="p-button-success mr-1"
+                        pTooltip="Enable {{product.name}}" (click)="showConfirmEnable(product.name, product.productId)"></p-button>
+                    <p-button icon="pi pi-ban" styleClass="p-button-warning mr-1"
+                        pTooltip="Disable {{product.name}}" (click)="showConfirmDisable(product.name, product.productId)"></p-button>
+                    <p-button icon="pi pi-times" styleClass="p-button-danger mr-1"
+                        pTooltip="Delete {{product.name}}" (click)="showConfirmDelete(product.name, product.productId)"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+            <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{products ? products.length : 0 }} products.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<p-toast position="center" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="flex flex-column" style="flex: 1">
+            <div class="text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="grid p-fluid">
+                <div class="col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Ok" class="p-button-danger"></button>
+                </div>
+                <div class="col-6">
+                    <button type="button" pButton label="Close" (click)="onReject()" class="p-button-success"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>

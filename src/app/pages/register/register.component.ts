@@ -60,10 +60,10 @@ export class RegisterComponent {
     }
     this.registerService.saveNewUser(userToSave).subscribe(
       (response: any) => {
-        console.log(response.headers.get("Token"))
         this.cookiesService.saveRoles(response.headers.get("Roles"), response.headers.get("Expiration"))
         this.cookiesService.saveToken(response.headers.get("Token"), response.headers.get("Expiration"))
         this.messageService.add({ severity: 'success', summary: 'Welcome', detail: `Welcome Back!.`, closable: true });
+        this.savedUser = true
       },
       (error: any) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: `There was saving your account. Try again later`, closable: true });

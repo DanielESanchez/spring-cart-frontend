@@ -40,12 +40,16 @@ export class LoginComponent {
         this.cookiesService.saveRoles(response.headers.get("Roles"), response.headers.get("Expiration"))
         this.cookiesService.saveToken(response.headers.get("Token"), response.headers.get("Expiration"))
         this.messageService.add({ severity: 'success', summary: 'Welcome', detail: `Welcome Back!.`, closable: true });
-        this.router.navigate(["/"])
+        // this.router.navigate(["/"])
       },
       (error: any) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: `There was retriving your account, the email or password is incorrect.`, closable: true });
       }
     )
+  }
+
+  goHome(){
+    this.router.navigate(["/"])
   }
 
 }

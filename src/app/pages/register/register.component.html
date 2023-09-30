@@ -54,7 +54,7 @@
         </div>
     </div>
 </div>
-<p-toast position="center" [baseZIndex]="5000" [showTransformOptions]="'translateY(100%)'"
+<p-toast position="center" [baseZIndex]="5000" [showTransformOptions]="'translateY(100%)'" [life]="5000" (onClose)="onCloseToast()"
     [showTransitionOptions]="'1000ms'" [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'">
     <ng-template let-message pTemplate="message">
         <div class="flex flex-column" style="flex: 1">
