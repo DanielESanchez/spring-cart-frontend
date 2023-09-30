@@ -8,6 +8,7 @@ import { UploadCategoryComponent } from './pages/upload-category/upload-category
 import { ProductListAdminComponent } from './pages/product-list-admin/product-list-admin.component';
 import { ProductViewAdminComponent } from './pages/product-view-admin/product-view-admin.component';
 import { CategoryListAdminComponent } from './pages/category-list-admin/category-list-admin.component';
+import { UpdateCategoryComponent } from './pages/update-category/update-category.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
   {
     path: 'admin-view-product/:id',
     component: ProductViewAdminComponent,
+  },
+  {
+    path: 'edit-category/:id',
+    component: UpdateCategoryComponent,
   },
   {
     path: '**',

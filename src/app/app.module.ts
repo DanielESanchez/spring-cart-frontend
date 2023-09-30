@@ -45,6 +45,7 @@ import { GalleriaModule } from "primeng/galleria";
 import { ImageModule } from "primeng/image";
 import { ProductViewAdminComponent } from './pages/product-view-admin/product-view-admin.component';
 import { CategoryListAdminComponent } from './pages/category-list-admin/category-list-admin.component';
+import { UpdateCategoryComponent } from './pages/update-category/update-category.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { CategoryListAdminComponent } from './pages/category-list-admin/category
     UploadCategoryComponent,
     ProductListAdminComponent,
     ProductViewAdminComponent,
-    CategoryListAdminComponent
+    CategoryListAdminComponent,
+    UpdateCategoryComponent
   ],
   imports: [
     BrowserModule,

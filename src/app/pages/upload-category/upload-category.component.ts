@@ -37,7 +37,6 @@ export class UploadCategoryComponent {
     this.categoryToSave.categoryId = this.categoryToSave.categoryId.replace(/\s+/g, '-');
     this.categoryService.saveNewCategory(this.categoryToSave).subscribe({
       next: (response: any) => {
-        console.log(response.headers.get("Location"))
         this.messageService.add({ severity: 'success', summary: 'Category Saved', closable: true });
       },
       error: (error: any) => {
