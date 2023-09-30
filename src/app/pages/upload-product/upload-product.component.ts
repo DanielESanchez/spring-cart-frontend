@@ -88,7 +88,7 @@ export class UploadProductComponent implements OnInit {
     for (const imageKey in this.images) {
       this.responseImage = await lastValueFrom(this.imageService.saveImage(this.images[imageKey])).catch(() => {
         this.isErrorForm = true
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: `There was an error saving ${this.product.name}, please try again later.`,  closable: false });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `There was an error saving ${this.product.name}, please try again later.`, closable: false });
       })
       this.product.imagesId.push(this.responseImage.headers.get("Location"))
     }
@@ -96,13 +96,17 @@ export class UploadProductComponent implements OnInit {
       this.product.categoriesId.push(this.selectedCategories[categoryKey].categoryId)
     }
     if (this.product.categoriesId.length < 1) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: `Please select at least 1 category to save new item.`,  closable: false });
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: `Please select at least 1 category to save new item.`, closable: false });
       return
     }
+    this.product.productId = this.product.productId.replace(/\s+/g, '-');
     const responseMenu = await lastValueFrom(this.productService.saveNewProduct(this.product)).catch(() => {
       this.isErrorForm = true
       this.messageService.add({ severity: 'error', summary: 'Error', detail: `There was an error saving ${this.product.name}, please try again later.`, closable: false });
-      //this.deleteMenu()
+      this.deleteProduct()
+      for (const key in this.product.imagesId) {
+        this.deleteImage(this.product.imagesId[key])
+      }
     })
     if (!responseMenu) return
     this.messageService.add({ severity: 'success', summary: 'Item Saved', detail: `The item ${this.product.name}, was added to the menu.`, closable: false })
@@ -119,6 +123,13 @@ export class UploadProductComponent implements OnInit {
     return true
   }
 
+  deleteProduct() {
+    this.productService.deleteProduct(this.product.productId)
+  }
+
+  deleteImage(imageId: string) {
+    this.imageService.deleteImage(imageId)
+  }
 
   onConfirm() {
     this.closeMessages()

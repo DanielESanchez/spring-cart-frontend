@@ -12,5 +12,9 @@ export class ProductService {
   saveNewProduct(product: any) {
     return this.http.post<any>(`${environment.API_URL}product/new`, product, { observe: "response" });
   }
-  
+
+  deleteProduct(productId: any){
+    return this.http.delete<any>(`${environment.API_URL}product/delete/${productId}`);
+  }
+
 }

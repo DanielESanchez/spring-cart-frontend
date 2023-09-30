@@ -15,4 +15,8 @@ export class ImageService {
     formData.append("file", image);
     return this.http.post(`${environment.API_URL}upload/image`, formData, { observe: "response" }).pipe(take(1))
   }
+
+  deleteImage(imageId: string) { 
+    return this.http.delete(`${environment.API_URL}delete/image/${imageId}`)
+  }
 }

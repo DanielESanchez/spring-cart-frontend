@@ -34,7 +34,7 @@ export class UploadCategoryComponent {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: `Please fill all data to complete the process.`, closable: true })
       return
     }
-    this.categoryToSave.categoryId = this.categoryToSave.categoryId.replace(/\s+/g, '');
+    this.categoryToSave.categoryId = this.categoryToSave.categoryId.replace(/\s+/g, '-');
     this.categoryService.saveNewCategory(this.categoryToSave).subscribe({
       next: (response: any) => {
         console.log(response.headers.get("Location"))
