@@ -1,8 +1,8 @@
 <p-menubar [model]="items">
     <ng-template pTemplate="start">
         <div class="grid">
-            <div class="col-2 logo" >
-                <img src="/assets/logo.jpeg" height="40"  />
+            <div class="col-2 logo">
+                <img src="/assets/logo.jpeg" height="40" />
             </div>
             <div class="col title logo">
                 Store Shopping Cart
@@ -13,7 +13,7 @@
         <button pButton pRipple label="Check Order" class="p-button-success" (click)="goCheck()"></button>
     </ng-template-->
 </p-menubar>
-<p-toast position="center" [baseZIndex]="5000" [showTransformOptions]="'translateY(100%)'" [life]="5000" (onClose)="goHome()"
+<p-toast position="center" [baseZIndex]="5000" [showTransformOptions]="'translateY(100%)'"
     [showTransitionOptions]="'1000ms'" [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'">
     <ng-template let-message pTemplate="message">
         <div class="flex flex-column" style="flex: 1">
@@ -21,6 +21,99 @@
                 <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
                 <h4>{{message.summary}}</h4>
                 <p>{{message.detail}}</p>
+            </div>
+            <div *ngIf="isShoppingCart">
+                <div style="background-color: white;">
+                    <h4 class="text-center">Shopping Cart</h4>
+                    <p-divider></p-divider>
+                    <ul>
+                        <div class="grid">
+                            <div class="field col-2">
+                                <b>Quantity</b>
+                            </div>
+                            <div class="field col text-center">
+                                <b>Product</b>
+                            </div>
+                            <div class="field col text-center">
+                                <b>Total</b>
+                            </div>
+                        </div>
+                        <div *ngFor="let product of productsInCart">
+                            <li>
+                                <div class="grid">
+                                    <div class="field col-2 text-center">
+                                        {{product.quantity}}x
+                                    </div>
+                                    <div class="field col text-center">
+                                        {{product.name}}
+                                    </div>
+                                    <div class="field col text-center">
+                                        {{product.price}}
+                                    </div>
+                                </div>
+                            </li>
+                            <p-divider></p-divider>
+                        </div>
+                    </ul>
+                    <b>TOTAL IN CART: </b> ${{totalShoppingCart}}
+                    <p-divider></p-divider>
+                    <div class="grid p-fluid">
+                        <div class="col-6">
+                            <button type="button" pButton (click)="onConfirmCart()" label="Save Order" class="p-button-danger"></button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" pButton label="Continue Shopping" (click)="onRejectCart()" class="p-button-success"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="isBuyingOrderProcess">
+                <div style="background-color: white;">
+                    <h4 class="text-center">Order Sumary</h4>
+                    <p-divider></p-divider>
+                    <ul>
+                        <div class="grid">
+                            <div class="field col-2">
+                                <b>Quantity</b>
+                            </div>
+                            <div class="field col text-center">
+                                <b>Product</b>
+                            </div>
+                            <div class="field col text-center">
+                                <b>Total</b>
+                            </div>
+                        </div>
+                        <div *ngFor="let product of orderSaved.shoppingCart.products">
+                            <li>
+                                <div class="grid">
+                                    <div class="field col-2 text-center">
+                                        {{product.quantity}}x
+                                    </div>
+                                    <div class="field col text-center">
+                                        {{product.name}}
+                                    </div>
+                                    <div class="field col text-center">
+                                        {{product.price}}
+                                    </div>
+                                </div>
+                            </li>
+                            <p-divider></p-divider>
+                        </div>
+                    </ul>
+                    <b>Subtotal: </b> ${{orderSaved.total - orderSaved.taxes | number}} <br>
+                    <b>Taxes: </b> ${{orderSaved.taxes | number}} <br>
+                    <b>Total to pay: </b> ${{orderSaved.total}}
+                    <p-divider></p-divider>
+                    <div class="grid p-fluid">
+                        <div class="col-6">
+                            <button type="button" pButton (click)="onConfirmBuy()" label="Complete Order" class="p-button-danger"></button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" pButton label="Cancel Order" (click)="onRejectBuy()" class="p-button-success"></button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </ng-template>

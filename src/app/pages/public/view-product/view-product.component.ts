@@ -192,7 +192,7 @@ export class ViewProductComponent implements OnInit {
     const cartSaved = await lastValueFrom(this.cartService.getCart(username))
     let totalProductsInCart = 0;
     for (const key in cartSaved.products) {
-      totalProductsInCart += totalProductsInCart + cartSaved.products[key].quantity
+      totalProductsInCart += cartSaved.products[key].quantity
     }
     this.signalCartService.emitSignal(totalProductsInCart)
   }
