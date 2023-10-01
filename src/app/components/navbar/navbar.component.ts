@@ -1,6 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Signal } from '@angular/core';
-import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Subscription, lastValueFrom } from 'rxjs';
 import { CookiesService } from 'src/app/services/auth-service/cookies.service';
@@ -43,7 +42,6 @@ export class NavbarComponent implements OnInit {
   constructor(private signalService: SignalCartService,
     private messageService: MessageService,
     private logoutService: LogoutService,
-    private router: Router,
     private cookiesService: CookiesService,
     private cartService: CartService,
     private signalCartService: SignalCartService,
@@ -215,6 +213,7 @@ export class NavbarComponent implements OnInit {
     })
     this.data = undefined
     this.updateItems()
+    this.messageService.add({ severity: 'warn', summary: 'Canceled', detail: "Order canceled. You must add products to cart again if you want to shopping.", closable: true });
   }
 
 

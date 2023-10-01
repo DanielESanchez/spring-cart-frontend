@@ -1,0 +1,43 @@
+<app-navbar></app-navbar>
+<div class="two text-center pt-2">
+    <h1>Orders History
+    </h1>
+</div>
+<div class="card">
+    <p-table #dt2 [value]="orders" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 15]" [globalFilterFields]="['name', 'orders.shoppingCart']">
+        <ng-template pTemplate="header" class="text-center">
+            <tr>
+                <th>Date</th>
+                <th>Products
+                </th>
+                <th>Order Total</th>
+                <th>Status</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-order>
+            <tr>
+                <td>{{order.orderDate}}</td>
+                <td>
+                    <ul>
+                        <li *ngFor="let product of order.shoppingCart.products">
+                            <div>
+                                <b class="mr-2">{{product.quantity}}x</b> {{product.name}}
+                            </div>
+                        </li>
+                    </ul>
+                </td>
+                <td>{{order.total | currency:'USD'}}</td>
+                <td><p-tag [value]="order.status" [severity]="getSeverity(order.status)"></p-tag>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{orders ? orders.length : 0 }} orders.
+            </div>
+        </ng-template>
+    </p-table>
+</div>

@@ -48,7 +48,7 @@
                                         {{product.name}}
                                     </div>
                                     <div class="field col text-center">
-                                        {{product.price}}
+                                        {{product.price | number: '1.2-2'}}
                                     </div>
                                 </div>
                             </li>
@@ -94,16 +94,16 @@
                                         {{product.name}}
                                     </div>
                                     <div class="field col text-center">
-                                        {{product.price}}
+                                        {{product.price | number: '1.2-2'}}
                                     </div>
                                 </div>
                             </li>
                             <p-divider></p-divider>
                         </div>
                     </ul>
-                    <b>Subtotal: </b> ${{orderSaved.total - orderSaved.taxes | number}} <br>
-                    <b>Taxes: </b> ${{orderSaved.taxes | number}} <br>
-                    <b>Total to pay: </b> ${{orderSaved.total}}
+                    <b>Subtotal: </b> ${{orderSaved.total - orderSaved.taxes | number: '1.2-2'}} <br>
+                    <b>Taxes: </b> ${{orderSaved.taxes | number: '1.2-2'}} <br>
+                    <b>Total to pay: </b> ${{orderSaved.total | number: '1.2-2'}}
                     <p-divider></p-divider>
                     <div class="grid p-fluid">
                         <div class="col-6">

@@ -12,6 +12,7 @@ import { UpdateCategoryComponent } from './pages/admin/update-category/update-ca
 import { UpdateProductComponent } from './pages/admin/update-product/update-product.component';
 import { ListProductsComponent } from './pages/public/list-products/list-products.component';
 import { ViewProductComponent } from './pages/public/view-product/view-product.component';
+import { UserOrdersComponent } from './pages/user/user-orders/user-orders.component';
 
 const routes: Routes = [
   {
@@ -53,6 +54,10 @@ const routes: Routes = [
   {
     path: 'view-product/:id',
     component: ViewProductComponent
+  },
+  {
+    path: 'user-orders',
+    component: UserOrdersComponent
   },
   {
     path: '',

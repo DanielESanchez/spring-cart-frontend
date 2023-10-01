@@ -32,4 +32,8 @@ export class OrderService {
   completeOrder(orderId: any) {
     return this.http.patch<any>(`${environment.API_URL}order/complete/${orderId}`, null);
   }
+
+  getOrdersUser(username: any){
+    return this.http.get<any>(`${environment.API_URL}orders/get/${username}`);
+  }
 }

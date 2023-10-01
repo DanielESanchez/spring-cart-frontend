@@ -49,6 +49,7 @@ import { UpdateCategoryComponent } from './pages/admin/update-category/update-ca
 import { UpdateProductComponent } from './pages/admin/update-product/update-product.component';
 import { ListProductsComponent } from './pages/public/list-products/list-products.component';
 import { ViewProductComponent } from './pages/public/view-product/view-product.component';
+import { UserOrdersComponent } from './pages/user/user-orders/user-orders.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { ViewProductComponent } from './pages/public/view-product/view-product.c
     UpdateCategoryComponent,
     UpdateProductComponent,
     ListProductsComponent,
-    ViewProductComponent
+    ViewProductComponent,
+    UserOrdersComponent
   ],
   imports: [
     BrowserModule,
