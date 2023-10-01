@@ -13,7 +13,8 @@ interface Order {
   isRefunded: boolean,
   isCanceled: boolean,
   status: string,
-  date: number
+  date: number,
+  isPaid: boolean
 }
 
 @Component({
@@ -37,7 +38,7 @@ export class UserOrdersComponent implements OnInit {
     this.orders = await lastValueFrom(this.orderService.getOrdersUser(username))
     for (const keyOrder in this.orders) {
       const actualOrder = this.orders[keyOrder]
-      actualOrder.status = this.getStatus(actualOrder.isCanceled, actualOrder.isRefunded, actualOrder.isCompleted)
+      actualOrder.status = this.getStatus(actualOrder.isCanceled, actualOrder.isRefunded, actualOrder.isCompleted, actualOrder.isPaid)
       actualOrder.orderDate = new Date(actualOrder.orderDate).toLocaleDateString()
       actualOrder.date = new Date(actualOrder.orderDate).getTime()
       for (const keyProduct in actualOrder.shoppingCart.products) {
@@ -60,10 +61,11 @@ export class UserOrdersComponent implements OnInit {
     return 'LOW STOCK'
   }
 
-  getStatus(isCanceled: boolean, isRefunded: boolean, isCompleted: boolean) {
+  getStatus(isCanceled: boolean, isRefunded: boolean, isCompleted: boolean, isPaid: boolean) {
     if (isRefunded) return 'REFUNDED'
     if (isCanceled) return 'CANCELED'
     if (isCompleted) return 'COMPLETED'
+    if (!isPaid) return 'NOT PAID'
     return 'IN PROGRESS'
   }
 
@@ -73,6 +75,7 @@ export class UserOrdersComponent implements OnInit {
       case "CANCELED": return 'danger'
       case "COMPLETED": return 'success'
       case "IN PROGRESS": return 'warning'
+      case "NOT PAID": return 'danger'
       default: return 'warning'
     }
   }

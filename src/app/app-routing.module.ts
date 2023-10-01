@@ -14,6 +14,7 @@ import { ListProductsComponent } from './pages/public/list-products/list-product
 import { ViewProductComponent } from './pages/public/view-product/view-product.component';
 import { UserOrdersComponent } from './pages/user/user-orders/user-orders.component';
 import { AdminOrdersComponent } from './pages/admin/admin-orders/admin-orders.component';
+import { SearchProductComponent } from './pages/public/search-product/search-product.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,10 @@ const routes: Routes = [
   {
     path: 'user-orders',
     component: UserOrdersComponent
+  },
+  {
+    path: 'search',
+    component: SearchProductComponent
   },
   {
     path: '',

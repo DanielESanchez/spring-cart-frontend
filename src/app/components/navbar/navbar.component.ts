@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
-import { Subscription, lastValueFrom } from 'rxjs';
+import { Subject, Subscription, debounceTime, lastValueFrom } from 'rxjs';
 import { CookiesService } from 'src/app/services/auth-service/cookies.service';
 import { LogoutService } from 'src/app/services/auth-service/logout.service';
 import { CartService } from 'src/app/services/carts/cart.service';
@@ -28,16 +29,18 @@ interface Order {
   providers: [MessageService]
 })
 export class NavbarComponent implements OnInit {
-  data?: Signal<any>;
+  private debouncerSearch: Subject<string> = new Subject<string>()
   private signalSubscription?: Subscription;
+  private orderId!: string | null
+  data?: Signal<any>;
   items: MenuItem[] | undefined;
   isShoppingCart!: boolean
   isSavingOrderProcess!: boolean
   isBuyingOrderProcess!: boolean
   totalShoppingCart: number = 0
   productsInCart!: ProductShoppingCart[]
-  private orderId!: string | null
   orderSaved!: Order
+  searchParam!: string
 
   constructor(private signalService: SignalCartService,
     private messageService: MessageService,
@@ -46,7 +49,9 @@ export class NavbarComponent implements OnInit {
     private cartService: CartService,
     private signalCartService: SignalCartService,
     private productService: ProductService,
-    private orderService: OrderService) {
+    private orderService: OrderService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute) {
 
   }
 
@@ -54,7 +59,16 @@ export class NavbarComponent implements OnInit {
     this.signalSubscription = this.signalService.getSignal().subscribe((data: any) => {
       this.data = data;
       this.updateItems()
-    });
+    })
+    this.debouncerSearch.pipe(debounceTime(1000)).subscribe(value => {
+      this.router.navigate(["/search"], { queryParams: { q: value } })
+    })
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        const searchFromURL = params['q']
+        if (!searchFromURL) this.searchParam = ""
+        this.searchParam = searchFromURL
+      })
     this.updateItems();
     const username = this.cookiesService.getUsernameCookie()
     if (username) {
@@ -71,7 +85,9 @@ export class NavbarComponent implements OnInit {
 
   ngOnDestroy() {
     if (this.signalSubscription)
-      this.signalSubscription.unsubscribe();
+      this.signalSubscription.unsubscribe()
+    if (this.debouncerSearch)
+      this.debouncerSearch.unsubscribe()
   }
 
   updateItems() {
@@ -216,5 +232,14 @@ export class NavbarComponent implements OnInit {
     this.messageService.add({ severity: 'warn', summary: 'Canceled', detail: "Order canceled. You must add products to cart again if you want to shopping.", closable: true });
   }
 
+  searchValue(searchValue: string) {
+    if(searchValue.length < 3 ) return
+    this.debouncerSearch.next(searchValue)
+  }
+
+  searchEnter(searchValue: string) {
+    if(searchValue.length < 3 ) return
+    this.router.navigate(["/search"], { queryParams: { q: searchValue } })
+  }
 
 }
