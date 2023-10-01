@@ -1,0 +1,82 @@
+<app-navbar></app-navbar>
+<div class="card md:justify-content-rigth mt-5" *ngIf="product && product.images && product.images.length > 0">
+    <div class="grid gap-3">
+        <div class="field col">
+            <p-galleria [value]="product.images" [responsiveOptions]="responsiveOptions"
+                [containerStyle]="{ 'width': '50vw', 'heigth': '640px' }" [numVisible]="6" [circular]="true">
+                <ng-template pTemplate="item" let-item>
+                    <img [src]="item" style="height: 600px;" />
+                </ng-template>
+                <ng-template pTemplate="thumbnail" let-item>
+                    <div class="grid grid-nogutter justify-content-center">
+                        <img [src]="item" height="100px" />
+                    </div>
+                </ng-template>
+            </p-galleria>
+        </div>
+        <div class="text-center field col" style="width: 50%;">
+            <div class="two text-center pt-2" *ngIf="product">
+                <h1>{{product.name}}
+                    <span>{{product.categories}}</span>
+                </h1>
+                <br>
+                <div class="grid">
+                    <div class="field col text-left">
+                        <span class="price-tag">
+                            <span
+                                style="font-size: 30px; font-weight: bold; font-style: italic;">${{product.price}}</span>
+                        </span>
+                    </div>
+                    <div class="field col text-right align-items-center">
+                        <div class="flex flex-wrap align-items-center justify-content-center card-container blue-container"
+                            style="height: 100%;">
+                            <p-button icon="pi pi-check"
+                                styleClass="p-button-rounded p-button-text p-button-raised mr-2" pTooltip="Save Review"
+                                *ngIf="loginService.isLoggedIn() && product.rating > 0"
+                                (click)="saveReview()"></p-button>
+                            <p-rating [(ngModel)]="product.rating" [stars]="5" [cancel]="loginService.isLoggedIn()"
+                                [readonly]="!loginService.isLoggedIn()">
+                            </p-rating>
+                            <span class="ml-4"> Total reviews: {{totalReviews}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p-inputNumber [(ngModel)]="quantitySelected" [showButtons]="true" buttonLayout="horizontal"
+                inputId="horizontal" spinnerMode="horizontal" [step]="1" decrementButtonClass="p-button-warning"
+                incrementButtonClass="p-button-info" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"
+                mode="decimal" [min]="1" [max]="product.quantityAvailable"></p-inputNumber>
+            <button pButton pRipple label="Add to cart" class="p-button-success ml-2" (click)="addToCart()"></button>
+            <p-divider></p-divider>
+            <p>{{product.description}}</p>
+        </div>
+    </div>
+</div>
+
+<p-toast position="center" [baseZIndex]="3000" [showTransformOptions]="'translateY(100%)'"
+    [showTransitionOptions]="'1000ms'" [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'"
+    (onClose)="onClose()">
+    <ng-template let-message pTemplate="message">
+        <div class="flex flex-column" style="flex: 1">
+            <div class="text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+                <div *ngIf="(isSaveReview)">
+                    <textarea rows="6" cols="30" placeholder="Add a Comment (Optional)" pInputTextarea
+                        [(ngModel)]="comment"></textarea>
+                </div>
+                <div class="grid p-fluid" *ngIf="(isSaveReview)">
+                    <div class="col-6">
+                        <button type="button" pButton (click)="onConfirmSaveReview()" label="Save"
+                            class="p-button-danger"></button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" pButton label="Close" (click)="onRejectSaveReview()"
+                            class="p-button-success"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>

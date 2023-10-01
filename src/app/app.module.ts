@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { LoginComponent } from "./pages/login/login.component";
+import { LoginComponent } from "./pages/public/login/login.component";
 
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from "primeng/inputtext";
@@ -33,19 +33,22 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { BadgeModule } from 'primeng/badge';
 import { TagModule } from "primeng/tag";
 import { RatingModule } from "primeng/rating";
-import { RegisterComponent } from './pages/register/register.component';
+import { RegisterComponent } from './pages/public/register/register.component';
 import { HomeComponent } from './pages/home/home.component';
-import { UploadProductComponent } from './pages/upload-product/upload-product.component';
-import { UploadCategoryComponent } from './pages/upload-category/upload-category.component';
+import { UploadProductComponent } from './pages/admin/upload-product/upload-product.component';
+import { UploadCategoryComponent } from './pages/admin/upload-category/upload-category.component';
 import { HeaderInterceptorService } from './services/auth-service/header-interceptor.service';
-import { ProductListAdminComponent } from './pages/product-list-admin/product-list-admin.component';
+import { ProductListAdminComponent } from './pages/admin/list-products-admin/product-list-admin.component';
 import { PaginatorModule } from 'primeng/paginator';
 import { TooltipModule } from "primeng/tooltip";
 import { GalleriaModule } from "primeng/galleria";
 import { ImageModule } from "primeng/image";
-import { ProductViewAdminComponent } from './pages/product-view-admin/product-view-admin.component';
-import { CategoryListAdminComponent } from './pages/category-list-admin/category-list-admin.component';
-import { UpdateCategoryComponent } from './pages/update-category/update-category.component';
+import { ProductViewAdminComponent } from './pages/admin/product-view-admin/product-view-admin.component';
+import { CategoryListAdminComponent } from './pages/admin/list-categories-admin/category-list-admin.component';
+import { UpdateCategoryComponent } from './pages/admin/update-category/update-category.component';
+import { UpdateProductComponent } from './pages/admin/update-product/update-product.component';
+import { ListProductsComponent } from './pages/public/list-products/list-products.component';
+import { ViewProductComponent } from './pages/public/view-product/view-product.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +62,10 @@ import { UpdateCategoryComponent } from './pages/update-category/update-category
     ProductListAdminComponent,
     ProductViewAdminComponent,
     CategoryListAdminComponent,
-    UpdateCategoryComponent
+    UpdateCategoryComponent,
+    UpdateProductComponent,
+    ListProductsComponent,
+    ViewProductComponent
   ],
   imports: [
     BrowserModule,

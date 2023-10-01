@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
+import { LoginComponent } from './pages/public/login/login.component';
+import { RegisterComponent } from './pages/public/register/register.component';
 import { HomeComponent } from './pages/home/home.component';
-import { UploadProductComponent } from './pages/upload-product/upload-product.component';
-import { UploadCategoryComponent } from './pages/upload-category/upload-category.component';
-import { ProductListAdminComponent } from './pages/product-list-admin/product-list-admin.component';
-import { ProductViewAdminComponent } from './pages/product-view-admin/product-view-admin.component';
-import { CategoryListAdminComponent } from './pages/category-list-admin/category-list-admin.component';
-import { UpdateCategoryComponent } from './pages/update-category/update-category.component';
+import { UploadProductComponent } from './pages/admin/upload-product/upload-product.component';
+import { UploadCategoryComponent } from './pages/admin/upload-category/upload-category.component';
+import { ProductListAdminComponent } from './pages/admin/list-products-admin/product-list-admin.component';
+import { ProductViewAdminComponent } from './pages/admin/product-view-admin/product-view-admin.component';
+import { CategoryListAdminComponent } from './pages/admin/list-categories-admin/category-list-admin.component';
+import { UpdateCategoryComponent } from './pages/admin/update-category/update-category.component';
+import { UpdateProductComponent } from './pages/admin/update-product/update-product.component';
+import { ListProductsComponent } from './pages/public/list-products/list-products.component';
+import { ViewProductComponent } from './pages/public/view-product/view-product.component';
 
 const routes: Routes = [
   {
@@ -44,8 +47,20 @@ const routes: Routes = [
     component: UpdateCategoryComponent,
   },
   {
+    path: 'edit-product/:id',
+    component: UpdateProductComponent,
+  },
+  {
+    path: 'view-product/:id',
+    component: ViewProductComponent
+  },
+  {
+    path: '',
+    component: ListProductsComponent
+  },
+  {
     path: '**',
-    component: HomeComponent
+    component: ListProductsComponent
   },
 ];
 

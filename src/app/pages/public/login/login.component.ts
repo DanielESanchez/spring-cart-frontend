@@ -39,6 +39,7 @@ export class LoginComponent {
       (response: any) => {
         this.cookiesService.saveRoles(response.headers.get("Roles"), response.headers.get("Expiration"))
         this.cookiesService.saveToken(response.headers.get("Token"), response.headers.get("Expiration"))
+        this.cookiesService.saveUsername(loginInfo.username, response.headers.get("Expiration"))
         this.messageService.add({ severity: 'success', summary: 'Welcome', detail: `Welcome Back!.`, closable: true });
         // this.router.navigate(["/"])
       },
@@ -48,8 +49,8 @@ export class LoginComponent {
     )
   }
 
-  goHome(){
-    this.router.navigate(["/"])
+  goHome() {
+    this.router.navigate([".."])
   }
 
 }

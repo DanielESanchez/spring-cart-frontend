@@ -36,4 +36,12 @@ export class ProductService {
   getProductByIdAdmin(productId: string){
     return this.http.get<any>(`${environment.API_URL}product/admin/get/${productId}`);
   }
+
+  getProductById(productId: string){
+    return this.http.get<any>(`${environment.API_URL}product/get/${productId}`);
+  }
+
+  updateProduct(product: any){
+    return this.http.put<any>(`${environment.API_URL}product/update`, product, { observe: "response" });
+  }
 }

@@ -1,3 +1,4 @@
+@use "sass:math";
 $price-tag-background: #ff6347;
 $price-tag-color: #fff;
 $price-tag-height: 100px;
@@ -10,7 +11,7 @@ $price-tag-dot-background: #fff;
     display: inline-flex;
     flex-direction: column;
     height: $price-tag-height;
-    margin-left: $price-tag-height / 2;
+    margin-left: math.div($price-tag-height, 2);
     padding: 0 35px 0 30px;
     color: $price-tag-color;
     border-radius: 0 $price-tag-corner $price-tag-corner 0;
@@ -25,9 +26,9 @@ $price-tag-dot-background: #fff;
     }
 
     &::before {
-        $price-tag-side: round($price-tag-height / 1.428);
+        $price-tag-side: round(math.div($price-tag-height, 1.428));
 
-        left: -$price-tag-side / 2;
+        left: math.div(-$price-tag-side, 2);
         width: $price-tag-side;
         height: $price-tag-side;
         transform: rotate(45deg);
@@ -38,11 +39,11 @@ $price-tag-dot-background: #fff;
     &::after {
         z-index: 1;
         top: 50%;
-        left: -$price-tag-height / 2;
+        left: math.div(-$price-tag-height, 2);
         width: $price-tag-dot-radius;
         height: $price-tag-dot-radius;
-        transform: translate(-50%, -50%) translateX($price-tag-height / 2);
-        border-radius: $price-tag-dot-radius / 2;
+        transform: translate(-50%, -50%) translateX(math.div($price-tag-height, 2));
+        border-radius: math.div($price-tag-dot-radius, 2);
         background-color: $price-tag-dot-background;
     }
 

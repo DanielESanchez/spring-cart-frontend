@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { lastValueFrom } from 'rxjs';
@@ -37,7 +38,8 @@ export class ProductListAdminComponent implements OnInit {
   constructor(private messageService: MessageService,
     private productsService: ProductService,
     private categoryService: CategoryService,
-    private reviewService: ReviewService
+    private reviewService: ReviewService,
+    private router: Router
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -184,6 +186,14 @@ export class ProductListAdminComponent implements OnInit {
     })
 
     this.resetOptionChosen()
+  }
+
+  editProduct(productId: string) {
+    this.router.navigate([`/edit-product/${productId}`])
+  }
+
+  seeProduct(productId: string) {
+    this.router.navigate([`/admin-view-product/${productId}`])
   }
 
 }

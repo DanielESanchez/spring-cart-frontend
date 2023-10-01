@@ -62,6 +62,7 @@ export class RegisterComponent {
       (response: any) => {
         this.cookiesService.saveRoles(response.headers.get("Roles"), response.headers.get("Expiration"))
         this.cookiesService.saveToken(response.headers.get("Token"), response.headers.get("Expiration"))
+        this.cookiesService.saveUsername(userToSave.username, response.headers.get("Expiration"))
         this.messageService.add({ severity: 'success', summary: 'Welcome', detail: `Welcome Back!.`, closable: true });
         this.savedUser = true
       },
@@ -106,7 +107,7 @@ export class RegisterComponent {
   }
 
   onCloseToast() {
-    if (this.savedUser) this.router.navigate(["/"])
+    if (this.savedUser) this.router.navigate([".."])
   }
 
 }

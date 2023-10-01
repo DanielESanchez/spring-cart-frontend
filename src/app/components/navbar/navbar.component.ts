@@ -1,8 +1,10 @@
 import { Component, OnInit, Signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
-import { Subscription } from 'rxjs';
+import { Subscription, lastValueFrom } from 'rxjs';
+import { CookiesService } from 'src/app/services/auth-service/cookies.service';
 import { LogoutService } from 'src/app/services/auth-service/logout.service';
+import { CartService } from 'src/app/services/carts/cart.service';
 import { SignalCartService } from 'src/app/services/signals/signal-cart.service';
 
 @Component({
@@ -19,17 +21,28 @@ export class NavbarComponent implements OnInit {
   constructor(private signalService: SignalCartService,
     private messageService: MessageService,
     private logoutService: LogoutService,
-    private router: Router) {
+    private router: Router,
+    private cookiesService: CookiesService,
+    private cartService: CartService,
+    private signalCartService: SignalCartService) {
 
   }
 
-  ngOnInit() {
-    const path = location.pathname
+  async ngOnInit() {
     this.signalSubscription = this.signalService.getSignal().subscribe((data: any) => {
       this.data = data;
       this.updateItems()
     });
     this.updateItems();
+    const username = this.cookiesService.getUsernameCookie()
+    if (username) {
+      const cartSaved = await lastValueFrom(this.cartService.getCart(username))
+      let totalProductsInCart = 0;
+      for (const key in cartSaved.products) {
+        totalProductsInCart += totalProductsInCart + cartSaved.products[key].quantity
+      }
+      this.signalCartService.emitSignal(totalProductsInCart)
+    }
   }
 
 
@@ -38,7 +51,7 @@ export class NavbarComponent implements OnInit {
       this.signalSubscription.unsubscribe();
   }
 
-  updateItems(){
+  updateItems() {
     this.items = [
       {
         label: 'Home',
@@ -88,15 +101,15 @@ export class NavbarComponent implements OnInit {
         label: 'Logout',
         icon: 'pi pi-fw pi-sign-out',
         command: () => {
-          this.messageService.add({ severity: 'success', summary: 'Logged Out', detail: "" });
           this.logoutService.logout()
+          this.messageService.add({ severity: 'success', summary: 'Logged Out', detail: "" });
         }
       }
     ];
   }
 
-  goHome(){
-    this.router.navigate(["/"])
+  goHome() {
+    window.location.href = "/"
   }
 
 }

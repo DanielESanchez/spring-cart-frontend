@@ -9,6 +9,8 @@ export class LogoutService {
   constructor(private cookieService: CookieService) { }
 
   logout() {
-    this.cookieService.deleteAll()
+    this.cookieService.delete("roles")
+    this.cookieService.delete("token")
+    this.cookieService.delete("username")
   }
 }

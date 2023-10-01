@@ -20,6 +20,10 @@ export class CookiesService {
     return this.cookieService.get("roles")
   }
 
+  getUsernameCookie(): string {
+    return this.cookieService.get("username")
+  }
+
   saveToken(token: string, expiration: string) {
     const expirationDate: Date = new Date(expiration)
     this.cookieService.set("token", token, expirationDate)
@@ -29,5 +33,10 @@ export class CookiesService {
     const expirationDate: Date = new Date(expiration)
     this.cookieService.set("roles", roles, expirationDate)
   }
-  
+
+  saveUsername(username: string, expiration: string) {
+    const expirationDate: Date = new Date(expiration)
+    this.cookieService.set("username", username, expirationDate)
+  }
+
 }
