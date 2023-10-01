@@ -15,6 +15,9 @@ import { ViewProductComponent } from './pages/public/view-product/view-product.c
 import { UserOrdersComponent } from './pages/user/user-orders/user-orders.component';
 import { AdminOrdersComponent } from './pages/admin/admin-orders/admin-orders.component';
 import { SearchProductComponent } from './pages/public/search-product/search-product.component';
+import { ListUsersAdminComponent } from './pages/admin/list-users-admin/list-users-admin.component';
+import { adminGuard } from './guards/admin.guard';
+import { userGuard } from './guards/user.guard';
 
 const routes: Routes = [
   {
@@ -27,35 +30,48 @@ const routes: Routes = [
   },
   {
     path: 'new-product',
-    component: UploadProductComponent
+    component: UploadProductComponent,
+    canActivate: [adminGuard]
   },
   {
     path: 'new-category',
-    component: UploadCategoryComponent
+    component: UploadCategoryComponent,
+    canActivate: [adminGuard]
   },
   {
     path: 'admin-products',
-    component: ProductListAdminComponent
+    component: ProductListAdminComponent,
+    canActivate: [adminGuard]
   },
   {
     path: 'admin-categories',
-    component: CategoryListAdminComponent
+    component: CategoryListAdminComponent,
+    canActivate: [adminGuard]
+  },
+  {
+    path: 'admin-users',
+    component: ListUsersAdminComponent,
+    canActivate: [adminGuard]
   },
   {
     path: 'admin-view-product/:id',
     component: ProductViewAdminComponent,
+    canActivate: [adminGuard]
   },
   {
     path: 'admin-orders',
     component: AdminOrdersComponent,
+    canActivate: [adminGuard]
   },
   {
     path: 'edit-category/:id',
     component: UpdateCategoryComponent,
+    canActivate: [adminGuard]
   },
   {
     path: 'edit-product/:id',
     component: UpdateProductComponent,
+    canActivate: [adminGuard]
   },
   {
     path: 'view-product/:id',
@@ -63,7 +79,8 @@ const routes: Routes = [
   },
   {
     path: 'user-orders',
-    component: UserOrdersComponent
+    component: UserOrdersComponent,
+    canActivate: [userGuard]
   },
   {
     path: 'search',

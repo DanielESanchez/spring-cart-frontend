@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Table } from 'primeng/table';
 import { lastValueFrom } from 'rxjs';
-import { CookiesService } from 'src/app/services/auth-service/cookies.service';
+import { CookiesService } from 'src/app/services/auth-services/cookies.service';
 import { OrderService } from 'src/app/services/orders/order.service';
 import { ProductService } from 'src/app/services/products/product.service';
 interface Order {

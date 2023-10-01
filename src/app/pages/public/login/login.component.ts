@@ -2,8 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { LoginService } from "src/app/services/auth-service/login.service";
-import { CookiesService } from "src/app/services/auth-service/cookies.service";
+import { LoginService } from "src/app/services/auth-services/login.service";
+import { CookiesService } from "src/app/services/auth-services/cookies.service";
 
 export interface LoginInfo {
   username: string,

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { CookiesService } from 'src/app/services/auth-service/cookies.service';
-import { LoginService } from 'src/app/services/auth-service/login.service';
-import { RegisterService } from 'src/app/services/auth-service/register.service';
+import { CookiesService } from 'src/app/services/auth-services/cookies.service';
+import { LoginService } from 'src/app/services/auth-services/login.service';
+import { RegisterService } from 'src/app/services/auth-services/register.service';
 
 export interface RegisterInfo {
   username: string,

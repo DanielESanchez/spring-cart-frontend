@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { lastValueFrom } from 'rxjs';
-import { CookiesService } from 'src/app/services/auth-service/cookies.service';
+import { CookiesService } from 'src/app/services/auth-services/cookies.service';
 import { OrderService } from 'src/app/services/orders/order.service';
 import { ProductService } from 'src/app/services/products/product.service';
 
@@ -162,6 +162,7 @@ export class AdminOrdersComponent implements OnInit {
       isError = true
     })
     if (isError) return
+    this.isCompleteProcess = false
     this.messageService.add({ severity: 'success', summary: `Completed`, detail: `The order for user ${this.usernameChosen} was marked as completed`, sticky: true, closable: true });
     this.updateOrders()
   }

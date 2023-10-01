@@ -3,7 +3,7 @@
     <div class="grid gap-3">
         <div class="field col">
             <p-galleria [value]="product.images" [responsiveOptions]="responsiveOptions"
-                [containerStyle]="{ 'width': '50vw', 'heigth': '640px' }" [numVisible]="6" [circular]="true">
+                [containerStyle]="{ 'width': '50vw', 'heigth': '640px' }" [numVisible]="6" [autoPlay]="true" [circular]="true">
                 <ng-template pTemplate="item" let-item>
                     <img [src]="item" style="height: 600px;" />
                 </ng-template>

@@ -37,7 +37,7 @@ import { RegisterComponent } from './pages/public/register/register.component';
 import { HomeComponent } from './pages/home/home.component';
 import { UploadProductComponent } from './pages/admin/upload-product/upload-product.component';
 import { UploadCategoryComponent } from './pages/admin/upload-category/upload-category.component';
-import { HeaderInterceptorService } from './services/auth-service/header-interceptor.service';
+import { HeaderInterceptorService } from './services/auth-services/header-interceptor.service';
 import { ProductListAdminComponent } from './pages/admin/list-products-admin/product-list-admin.component';
 import { PaginatorModule } from 'primeng/paginator';
 import { TooltipModule } from "primeng/tooltip";
@@ -52,6 +52,7 @@ import { ViewProductComponent } from './pages/public/view-product/view-product.c
 import { UserOrdersComponent } from './pages/user/user-orders/user-orders.component';
 import { AdminOrdersComponent } from './pages/admin/admin-orders/admin-orders.component';
 import { SearchProductComponent } from './pages/public/search-product/search-product.component';
+import { ListUsersAdminComponent } from './pages/admin/list-users-admin/list-users-admin.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { SearchProductComponent } from './pages/public/search-product/search-pro
     ViewProductComponent,
     UserOrdersComponent,
     AdminOrdersComponent,
-    SearchProductComponent
+    SearchProductComponent,
+    ListUsersAdminComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,75 @@
+<app-navbar></app-navbar>
+<div class="two text-center pt-2">
+    <h1>Orders History
+    </h1>
+</div>
+<div class="card">
+    <p-table #dt2 [value]="users" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+        styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 15]" [globalFilterFields]="['username']">
+        <ng-template pTemplate="header" class="text-center">
+            <tr>
+                <th>User
+                    <p-columnFilter type="text" field="username" display="menu" [showMatchModes]="false"
+                        [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                </th>
+                <th>Full Name</th>
+                <th>Sign Up Date</th>
+                <th>Status</th>
+                <th>Option</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>{{user.username}}</td>
+                <td>
+                    {{user.firstName}} {{user.lastName}}
+                </td>
+                <td>{{user.createdAt}}</td>
+                <td><p-tag [value]="getStatus(user.enabled)" [severity]="getSeverity(user.enabled)"></p-tag>
+                </td>
+                <td>
+                    <p-button icon="pi pi-lock-open" styleClass="p-button-help mr-1"
+                        pTooltip="Enable {{user.username}}"
+                        (click)="showConfirmEnable(user.username)"></p-button>
+                    <p-button icon="pi pi-ban" styleClass="p-button-warning mr-1" pTooltip="Disable {{user.username}}"
+                        (click)="showConfirmDisable(user.username)"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{users ? users.length : 0 }} orders.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-toast position="center" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="flex flex-column" style="flex: 1">
+            <div class="text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="grid p-fluid" *ngIf="isEnableProcess">
+                <div class="col-6">
+                    <button type="button" pButton (click)="onConfirmEnable()" label="Ok" class="p-button-danger"></button>
+                </div>
+                <div class="col-6">
+                    <button type="button" pButton label="Close" (click)="onRejectEnable()" class="p-button-success"></button>
+                </div>
+            </div>
+            <div class="grid p-fluid" *ngIf="isDisableProcess">
+                <div class="col-6">
+                    <button type="button" pButton (click)="onConfirmDisable()" label="Ok" class="p-button-danger"></button>
+                </div>
+                <div class="col-6">
+                    <button type="button" pButton label="Close" (click)="onRejectDisable()" class="p-button-success"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>

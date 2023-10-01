@@ -3,8 +3,10 @@ import { Component, OnInit, Signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Subject, Subscription, debounceTime, lastValueFrom } from 'rxjs';
-import { CookiesService } from 'src/app/services/auth-service/cookies.service';
-import { LogoutService } from 'src/app/services/auth-service/logout.service';
+import { CheckRoleService } from 'src/app/services/auth-services/check-role.service';
+import { CookiesService } from 'src/app/services/auth-services/cookies.service';
+import { LoginService } from 'src/app/services/auth-services/login.service';
+import { LogoutService } from 'src/app/services/auth-services/logout.service';
 import { CartService } from 'src/app/services/carts/cart.service';
 import { OrderService } from 'src/app/services/orders/order.service';
 import { ProductService } from 'src/app/services/products/product.service';
@@ -30,9 +32,10 @@ interface Order {
 })
 export class NavbarComponent implements OnInit {
   private debouncerSearch: Subject<string> = new Subject<string>()
+  private debouncerLogout: Subject<any> = new Subject<any>()
   private signalSubscription?: Subscription;
   private orderId!: string | null
-  data?: Signal<any>;
+  signalProductsInCart?: Signal<any>;
   items: MenuItem[] | undefined;
   isShoppingCart!: boolean
   isSavingOrderProcess!: boolean
@@ -42,22 +45,25 @@ export class NavbarComponent implements OnInit {
   orderSaved!: Order
   searchParam!: string
 
+
   constructor(private signalService: SignalCartService,
     private messageService: MessageService,
     private logoutService: LogoutService,
+    private loginService: LoginService,
     private cookiesService: CookiesService,
     private cartService: CartService,
     private signalCartService: SignalCartService,
     private productService: ProductService,
     private orderService: OrderService,
     private router: Router,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute,
+    private checkRoleService: CheckRoleService) {
 
   }
 
   async ngOnInit() {
     this.signalSubscription = this.signalService.getSignal().subscribe((data: any) => {
-      this.data = data;
+      this.signalProductsInCart = data;
       this.updateItems()
     })
     this.debouncerSearch.pipe(debounceTime(1000)).subscribe(value => {
@@ -67,7 +73,7 @@ export class NavbarComponent implements OnInit {
       .subscribe(params => {
         const searchFromURL = params['q']
         if (!searchFromURL) this.searchParam = ""
-        this.searchParam = searchFromURL
+        else { this.searchParam = searchFromURL }
       })
     this.updateItems();
     const username = this.cookiesService.getUsernameCookie()
@@ -88,6 +94,15 @@ export class NavbarComponent implements OnInit {
       this.signalSubscription.unsubscribe()
     if (this.debouncerSearch)
       this.debouncerSearch.unsubscribe()
+    if (this.debouncerLogout)
+      this.debouncerLogout.unsubscribe()
+  }
+
+  startDebouncerLogout() {
+    this.debouncerLogout.pipe(debounceTime(2000)).subscribe(value => {
+      this.updateItems()
+      window.location.href = "/"
+    })
   }
 
   updateItems() {
@@ -98,52 +113,84 @@ export class NavbarComponent implements OnInit {
         routerLink: '/',
       },
       {
-        label: 'Cart',
-        icon: 'pi pi-fw pi-shopping-cart',
-        badge: this.data?.toString(),
-        badgeStyleClass: "badge-cart",
-        command: () => {
-          this.onShowCart()
-        }
-      },
-      {
-        label: 'New Product',
-        icon: 'pi pi-fw pi-plus',
-        routerLink: '/new-product'
-      },
-      {
         label: 'Users',
         icon: 'pi pi-fw pi-users',
-        routerLink: '/users'
+        routerLink: '/admin-users',
+        visible: this.checkRoleService.hasRole("ADMIN")
       },
       {
-        label: 'Employees',
-        icon: 'pi pi-fw pi-user',
+        label: 'Categories',
+        icon: 'pi pi-fw pi-tags',
+        visible: this.checkRoleService.hasRole("ADMIN"),
         items: [
           {
-            label: 'Add Employee',
-            icon: 'pi pi-fw pi-user-plus',
-            routerLink: "/save-employee"
+            label: 'Add Category',
+            icon: 'pi pi-fw pi-plus',
+            routerLink: "/new-product"
           },
           {
-            label: "Employee's List",
-            icon: 'pi pi-fw pi-users',
-            routerLink: "/list-employee"
+            label: "Categorie's List",
+            icon: 'pi pi-fw pi-server',
+            routerLink: "/admin-products",
+          }
+        ]
+      },
+      {
+        label: 'Products',
+        icon: 'pi pi-fw pi-shopping-bag',
+        visible: this.checkRoleService.hasRole("ADMIN"),
+        items: [
+          {
+            label: 'Add Product',
+            icon: 'pi pi-fw pi-plus',
+            routerLink: "/new-product"
+          },
+          {
+            label: "Product's List",
+            icon: 'pi pi-fw pi-server',
+            routerLink: "/admin-products"
 
           }
         ]
       },
       {
+        label: 'Orders',
+        icon: 'pi pi-fw pi-history',
+        routerLink: "/admin-orders",
+        visible: this.checkRoleService.hasRole("ADMIN")
+      },
+      {
+        label: 'My Orders',
+        icon: 'pi pi-fw pi-history',
+        routerLink: "/user-orders",
+        visible: !this.checkRoleService.hasRole("ADMIN") && this.loginService.isLoggedIn(),
+      },
+      {
         label: 'Login',
         icon: 'pi pi-fw pi-sign-in',
-        routerLink: "/login"
+        routerLink: "/login",
+        visible: !this.loginService.isLoggedIn()
       },
       {
         label: 'Logout',
         icon: 'pi pi-fw pi-sign-out',
+        visible: this.loginService.isLoggedIn(),
         command: () => {
           this.logoutService.logout()
           this.messageService.add({ severity: 'success', summary: 'Logged Out', detail: "", life: 3000 });
+          this.signalProductsInCart = undefined
+          this.startDebouncerLogout()
+          this.debouncerLogout.next("")
+        }
+      },
+      {
+        label: 'Cart',
+        icon: 'pi pi-fw pi-shopping-cart',
+        badge: this.signalProductsInCart?.toString(),
+        badgeStyleClass: "badge-cart",
+        visible: !this.checkRoleService.hasRole("ADMIN")  && this.loginService.isLoggedIn(),
+        command: () => {
+          this.onShowCart()
         }
       }
     ];
@@ -215,7 +262,7 @@ export class NavbarComponent implements OnInit {
     })
     this.isBuyingOrderProcess = false
     this.messageService.add({ severity: 'success', summary: 'Completed', detail: "Order process completed. Thank for buying our products.", closable: true });
-    this.data = undefined
+    this.signalProductsInCart = undefined
     this.updateItems()
   }
 
@@ -227,18 +274,18 @@ export class NavbarComponent implements OnInit {
     await lastValueFrom(this.orderService.cancelOrder(this.orderId)).catch(() => {
       this.isBuyingOrderProcess = false
     })
-    this.data = undefined
+    this.signalProductsInCart = undefined
     this.updateItems()
     this.messageService.add({ severity: 'warn', summary: 'Canceled', detail: "Order canceled. You must add products to cart again if you want to shopping.", closable: true });
   }
 
   searchValue(searchValue: string) {
-    if(searchValue.length < 3 ) return
+    if (searchValue.length < 3) return
     this.debouncerSearch.next(searchValue)
   }
 
   searchEnter(searchValue: string) {
-    if(searchValue.length < 3 ) return
+    if (searchValue.length < 3) this.router.navigate(["/"])
     this.router.navigate(["/search"], { queryParams: { q: searchValue } })
   }
 
