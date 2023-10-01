@@ -1,0 +1,94 @@
+<app-navbar></app-navbar>
+<div class="two text-center pt-2">
+    <h1>All Orders
+    </h1>
+</div>
+<div class="card">
+    <p-table #dt2 [value]="orders" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+        styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 10, 15]" [globalFilterFields]="['name', 'orders.shoppingCart']">
+        <ng-template pTemplate="header" class="text-center">
+            <tr>
+                <th>Date</th>
+                <th>Products
+                </th>
+                <th>Order Total</th>
+                <th>Status</th>
+                <th>Opcion</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-order>
+            <tr>
+                <td>{{order.orderDate}}</td>
+                <td>
+                    <ul>
+                        <li *ngFor="let product of order.shoppingCart.products">
+                            <div>
+                                <b class="mr-2">{{product.quantity}}x</b> {{product.name}}
+                            </div>
+                        </li>
+                    </ul>
+                </td>
+                <td>{{order.total | currency:'USD'}}</td>
+                <td><p-tag [value]="order.status" [severity]="getSeverity(order.status)"></p-tag>
+                </td>
+                <td>
+                    <p-button icon="pi pi-check" styleClass="p-button-success mr-1" pTooltip="Complete this order"
+                        (click)="showConfirmComplete(order.username, order._id)"></p-button>
+                    <p-button icon="pi pi-refresh" styleClass="p-button-warning mr-1" pTooltip="Refund this order"
+                        (click)="showConfirmRefund(order.username, order._id)"></p-button>
+                    <p-button icon="pi pi-times" styleClass="p-button-danger mr-1" pTooltip="Cancel this order"
+                        (click)="showConfirmCancel(order.username, order._id)"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{orders ? orders.length : 0 }} orders.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-toast position="center" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="flex flex-column" style="flex: 1">
+            <div class="text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="grid p-fluid" *ngIf="isCancelProcess">
+                <div class="col-6">
+                    <button type="button" pButton (click)="onConfirmCancel()" label="Ok"
+                        class="p-button-danger"></button>
+                </div>
+                <div class="col-6">
+                    <button type="button" pButton label="Close" (click)="onRejectCancel()"
+                        class="p-button-success"></button>
+                </div>
+            </div>
+            <div class="grid p-fluid" *ngIf="isRefundProcess">
+                <div class="col-6">
+                    <button type="button" pButton (click)="onConfirmRefund()" label="Ok"
+                        class="p-button-danger"></button>
+                </div>
+                <div class="col-6">
+                    <button type="button" pButton label="Close" (click)="onRejectRefund()"
+                        class="p-button-success"></button>
+                </div>
+            </div>
+            <div class="grid p-fluid" *ngIf="isCompleteProcess">
+                <div class="col-6">
+                    <button type="button" pButton (click)="onConfirmComplete()" label="Ok"
+                        class="p-button-danger"></button>
+                </div>
+                <div class="col-6">
+                    <button type="button" pButton label="Close" (click)="onRejectComplete()"
+                        class="p-button-success"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>

@@ -33,7 +33,23 @@ export class OrderService {
     return this.http.patch<any>(`${environment.API_URL}order/complete/${orderId}`, null);
   }
 
-  getOrdersUser(username: any){
+  getOrdersUser(username: any) {
     return this.http.get<any>(`${environment.API_URL}orders/get/${username}`);
+  }
+
+  getAllOrdersAdmin() {
+    return this.http.get<any>(`${environment.API_URL}orders/all/get`);
+  }
+
+  cancelOrderAdmin(_idOrder: string) {
+    return this.http.patch<any>(`${environment.API_URL}order/cancel/${_idOrder}`, null);
+  }
+
+  completeOrderAdmin(_idOrder: string) {
+    return this.http.patch<any>(`${environment.API_URL}order/complete/${_idOrder}`, null);
+  }
+
+  refundOrderAdmin(_idOrder: string) {
+    return this.http.patch<any>(`${environment.API_URL}order/refund/${_idOrder}`, null);
   }
 }

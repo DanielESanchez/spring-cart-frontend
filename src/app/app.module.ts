@@ -50,6 +50,7 @@ import { UpdateProductComponent } from './pages/admin/update-product/update-prod
 import { ListProductsComponent } from './pages/public/list-products/list-products.component';
 import { ViewProductComponent } from './pages/public/view-product/view-product.component';
 import { UserOrdersComponent } from './pages/user/user-orders/user-orders.component';
+import { AdminOrdersComponent } from './pages/admin/admin-orders/admin-orders.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { UserOrdersComponent } from './pages/user/user-orders/user-orders.compon
     UpdateProductComponent,
     ListProductsComponent,
     ViewProductComponent,
-    UserOrdersComponent
+    UserOrdersComponent,
+    AdminOrdersComponent
   ],
   imports: [
     BrowserModule,

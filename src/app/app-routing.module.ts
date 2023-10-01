@@ -13,6 +13,7 @@ import { UpdateProductComponent } from './pages/admin/update-product/update-prod
 import { ListProductsComponent } from './pages/public/list-products/list-products.component';
 import { ViewProductComponent } from './pages/public/view-product/view-product.component';
 import { UserOrdersComponent } from './pages/user/user-orders/user-orders.component';
+import { AdminOrdersComponent } from './pages/admin/admin-orders/admin-orders.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,10 @@ const routes: Routes = [
   {
     path: 'admin-view-product/:id',
     component: ProductViewAdminComponent,
+  },
+  {
+    path: 'admin-orders',
+    component: AdminOrdersComponent,
   },
   {
     path: 'edit-category/:id',

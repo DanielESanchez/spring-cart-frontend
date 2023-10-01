@@ -4,7 +4,7 @@
     </h1>
 </div>
 <div class="card">
-    <p-table #dt2 [value]="orders" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+    <p-table #dt2 [value]="orders" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" styleClass="p-datatable-striped"
         [tableStyle]="{ 'min-width': '50rem' }"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [rowsPerPageOptions]="[5, 10, 15]" [globalFilterFields]="['name', 'orders.shoppingCart']">
