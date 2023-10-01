@@ -53,6 +53,7 @@ import { UserOrdersComponent } from './pages/user/user-orders/user-orders.compon
 import { AdminOrdersComponent } from './pages/admin/admin-orders/admin-orders.component';
 import { SearchProductComponent } from './pages/public/search-product/search-product.component';
 import { ListUsersAdminComponent } from './pages/admin/list-users-admin/list-users-admin.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { ListUsersAdminComponent } from './pages/admin/list-users-admin/list-use
     UserOrdersComponent,
     AdminOrdersComponent,
     SearchProductComponent,
-    ListUsersAdminComponent
+    ListUsersAdminComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
